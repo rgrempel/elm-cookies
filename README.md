@@ -42,3 +42,9 @@ type alias Options =
     , secure : Maybe Bool
     }
 ```
+
+You can use `defaultOptions` as a starting point, in which all options are set to `Nothing`.
+
+```elm
+defaultOptions : Options
+```
