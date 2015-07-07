@@ -119,7 +119,7 @@ setWithOptions options key value =
             ]
 
         cookieStrings =
-            List.filterMap (\f -> f options) handlers
+            List.filterMap ((|>) options) handlers
 
     in
         setString <| List.foldr (++) "" <| intersperse ";" cookieStrings

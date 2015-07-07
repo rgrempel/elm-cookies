@@ -42,43 +42,45 @@ port tasks =
         (send tests.address << suite "Cookies")
 
 
+(>>>) = flip Task.map
+(>>+) = Task.andThen
+
 simpleSetGet : Task x Test
 simpleSetGet =
-    Task.map
-        (Dict.get "bog" >> assertEqual (Just "joe") >> test "simple set then get")
-        ((Cookies.set "bog" "joe") `andThen` (always Cookies.get))
+    (Cookies.set "bog" "joe" >>+ always Cookies.get)
+    >>>
+    (Dict.get "bog" >> assertEqual (Just "joe") >> test "simple set then get")
 
 
 -- Make sure we're actually *changing* the cookie
 secondSetGet : Task x Test
 secondSetGet =
-    Task.map
-        (Dict.get "bog" >> assertEqual (Just "frank") >> test "repeated set/get, to make sure we can change the cookie")
-        ((Cookies.set "bog" "frank") `andThen` (always Cookies.get))
+    (Cookies.set "bog" "frank" >>+ always Cookies.get)
+    >>>
+    (Dict.get "bog" >> assertEqual (Just "frank") >> test "repeated set/get, to make sure we can change the cookie")
 
 
 multipleSetGet : Task x Test
 multipleSetGet =
-    Task.map
-        (\cookies ->
-            [Dict.get "cookie1" cookies, Dict.get "cookie2" cookies] |>
-            assertEqual [Just "cookie 1 value", Just "cookie 2 value"] |>
-            test "multiple cookies"
-        )
-        (
-            (Cookies.set "cookie1" "cookie 1 value") 
-            `andThen`
-            (always <| Cookies.set "cookie2" "cookie 2 value") 
-            `andThen`
-            (always Cookies.get)
-        )
+    (
+        Cookies.set "cookie1" "cookie 1 value" 
+        >>+
+        always (Cookies.set "cookie2" "cookie 2 value")
+        >>+
+        always Cookies.get
+    )
+    >>>
+    (λcookies ->
+        [Dict.get "cookie1" cookies, Dict.get "cookie2" cookies] |>
+        assertEqual [Just "cookie 1 value", Just "cookie 2 value"] |>
+        test "multiple cookies")
 
 
 encodingTest : Task x Test
 encodingTest =
-    Task.map
-        (Dict.get "encoded=" >> assertEqual (Just "value needs encoding ;") >> test "key and value should be encoded")
-        ((Cookies.set "encoded=" "value needs encoding ;") `andThen` (always Cookies.get))
+    (Cookies.set "encoded=" "value needs encoding ;" >>+ always Cookies.get)
+    >>>
+    (Dict.get "encoded=" >> assertEqual (Just "value needs encoding ;") >> test "key and value should be encoded")
 
 
 setWithWrongPath : Task x Test
@@ -91,9 +93,9 @@ setWithWrongPath =
             { defaults | path <- Just "/path" }
 
     in
-        Task.map
-            (Dict.get "wrong path cookie" >> assertEqual Nothing >> test "test with path set to bad value")
-            ((Cookies.setWithOptions options "wrong path cookie" "path cookie value") `andThen` (always Cookies.get))
+        (Cookies.setWithOptions options "wrong path cookie" "path cookie value" >>+ always Cookies.get)
+        >>>
+        (Dict.get "wrong path cookie" >> assertEqual Nothing >> test "test with path set to bad value")
 
 
 setWithGoodPath : Task x Test
@@ -106,9 +108,9 @@ setWithGoodPath =
             { defaults | path <- Just "/" }
 
     in
-        Task.map
-            (Dict.get "good path cookie" >> assertEqual (Just "path cookie value")  >> test "test with path set to good value")
-            ((Cookies.setWithOptions options "good path cookie" "path cookie value") `andThen` (always Cookies.get))
+        (Cookies.setWithOptions options "good path cookie" "path cookie value" >>+ always Cookies.get)
+        >>>
+        (Dict.get "good path cookie" >> assertEqual (Just "path cookie value") >> test "test with path set to good value")
 
 
 maxAgeFuture : Task x Test
@@ -121,9 +123,9 @@ maxAgeFuture =
             { defaults | maxAge <- Just 1000 }
 
     in
-        Task.map
-            (Dict.get "max age future" >> assertEqual (Just "cookie value")  >> test "test with maxAge in future")
-            ((Cookies.setWithOptions options "max age future" "cookie value") `andThen` (always Cookies.get))
+        (Cookies.setWithOptions options "max age future" "cookie value" >>+ always Cookies.get)
+        >>>
+        (Dict.get "max age future" >> assertEqual (Just "cookie value") >> test "test with maxAge in future")
 
 
 expiresInFuture : Task x Test
@@ -137,9 +139,9 @@ expiresInFuture =
             { defaults | expires <- Just (fromTime (1853609409 * second)) }
 
     in
-        Task.map
-            (Dict.get "expires" >> assertEqual (Just "cookie value") >> test "test with expiry in future")
-            ((Cookies.setWithOptions options "expires" "cookie value") `andThen` (always Cookies.get))
+        (Cookies.setWithOptions options "expires" "cookie value" >>+ always Cookies.get)
+        >>>
+        (Dict.get "expires" >> assertEqual (Just "cookie value") >> test "test with expiry in future")
 
 
 expiresInPast : Task x Test
@@ -152,6 +154,6 @@ expiresInPast =
             { defaults | expires <- Just (fromTime 0) }
 
     in
-        Task.map
-            (Dict.get "expires" >> assertEqual (Nothing) >> test "test with expiry in past")
-            ((Cookies.setWithOptions options "expires" "cookie value") `andThen` (always Cookies.get))
+        (Cookies.setWithOptions options "expires" "cookie value" >>+ always Cookies.get)
+        >>>
+        (Dict.get "expires" >> assertEqual (Nothing) >> test "test with expiry in past")
