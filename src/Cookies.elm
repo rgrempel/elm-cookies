@@ -17,7 +17,7 @@ module Cookies
 
 import Native.Cookies
 import Task exposing (Task)
-import String exposing (split, trim)
+import String exposing (split, trim, join)
 import Dict exposing (Dict, insert)
 import Http exposing (uriDecode, uriEncode)
 import Time exposing (inSeconds, Time)
@@ -122,7 +122,7 @@ setWithOptions options key value =
             List.filterMap ((|>) options) handlers
 
     in
-        setString <| List.foldr (++) "" <| intersperse ";" cookieStrings
+        setString <| join ";" cookieStrings
 
 
 setString : String -> Task x ()
