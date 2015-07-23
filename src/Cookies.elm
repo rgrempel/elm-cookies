@@ -111,11 +111,11 @@ setWithOptions options key value =
 
         handlers =
             [ always <| Just <| (uriEncode key) ++ "=" ++ (uriEncode value)
-            , andThen (\path -> Just <| "path=" ++ uriEncode path) << .path
-            , andThen (\domain -> Just <| "domain=" ++ uriEncode domain) << .domain
-            , andThen (\age -> Just <| "max-age=" ++ toString (inSeconds age)) << .maxAge
-            , andThen (\expires -> Just <| "expires=" ++ dateToUTCString expires) << .expires
-            , andThen (\secure -> if secure then Just "secure" else Nothing) << .secure
+            , .path >> andThen (\path -> Just <| "path=" ++ uriEncode path)
+            , .domain >> andThen (\domain -> Just <| "domain=" ++ uriEncode domain)
+            , .maxAge >> andThen (\age -> Just <| "max-age=" ++ toString (inSeconds age))
+            , .expires >> andThen (\expires -> Just <| "expires=" ++ dateToUTCString expires)
+            , .secure >> andThen (\secure -> if secure then Just "secure" else Nothing)
             ]
 
         cookieStrings =
