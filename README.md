@@ -75,7 +75,7 @@ In the meantime, you can install it and use it via the following steps:
 
         "source-directories": [
             "src",
-            "elm-ticker/src"
+            "elm-cookies/src"
         ],
 
     But, of course, that depends on where you've actually put it.
