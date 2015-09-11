@@ -17,7 +17,7 @@ uriDecoded for you.
 ## Setting Cookies
 
 If you don't need to provide special options, then you can just create
-a `set` task by supplying the key and value.
+a `set` task by supplying the key (first parameter) and value (second parameter).
 
 ```elm
 set : String -> String -> Task x ()

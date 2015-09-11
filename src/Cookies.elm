@@ -62,10 +62,10 @@ cookieString2Dict =
         List.foldl addCookieToDict Dict.empty << split ";"
 
 
-{-| A task which will set a cookie using the provided key and value.
+{-| A task which will set a cookie using the provided key (first parameter)
+and value (second parameter).
 
 The key and value will both be uriEncoded.
-
 -}
 set : String -> String -> Task x ()
 set = setWithOptions defaultOptions
@@ -99,7 +99,8 @@ defaultOptions =
     }
 
 
-{-| A task which will set a cookie using the provided options, key and value.
+{-| A task which will set a cookie using the provided options, key (second
+parameter), and value (third parameter).
 
 The key and value will be uriEncoded, as well as the path and domain options (if provided).
 -}
