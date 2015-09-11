@@ -8,13 +8,13 @@ Elm.Native.Cookies.make = function (localRuntime) {
     	var Utils = Elm.Native.Utils.make(localRuntime);
 
         var getString = Task.asyncFunction(function (callback) {
-            return callback(Task.succeed(document.cookie));
+            callback(Task.succeed(document.cookie));
         });
 
         var setString = function (cookie) {
             return Task.asyncFunction(function (callback) {
                 document.cookie = cookie;
-                return callback(Task.succeed(Utils.Tuple0));
+                callback(Task.succeed(Utils.Tuple0));
             });
         };
 
