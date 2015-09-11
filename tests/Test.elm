@@ -105,7 +105,7 @@ setWithGoodPath =
             Cookies.defaultOptions
 
         options =
-            { defaults | path <- Just "/" }
+            { defaults | path <- Just "" }
 
     in
         (Cookies.setWithOptions options "good path cookie" "path cookie value" >>+ always Cookies.get)
