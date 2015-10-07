@@ -90,7 +90,7 @@ setWithWrongPath =
             Cookies.defaultOptions
 
         options =
-            { defaults | path <- Just "/path" }
+            { defaults | path = Just "/path" }
 
     in
         (Cookies.setWithOptions options "wrong path cookie" "path cookie value" >>+ always Cookies.get)
@@ -105,7 +105,7 @@ setWithGoodPath =
             Cookies.defaultOptions
 
         options =
-            { defaults | path <- Just "" }
+            { defaults | path = Just "" }
 
     in
         (Cookies.setWithOptions options "good path cookie" "path cookie value" >>+ always Cookies.get)
@@ -120,7 +120,7 @@ maxAgeFuture =
             Cookies.defaultOptions
 
         options =
-            { defaults | maxAge <- Just 1000 }
+            { defaults | maxAge = Just 1000 }
 
     in
         (Cookies.setWithOptions options "max age future" "cookie value" >>+ always Cookies.get)
@@ -136,7 +136,7 @@ expiresInFuture =
 
         options =
             -- Sets the date to September 26, 2028 conveniently
-            { defaults | expires <- Just (fromTime (1853609409 * second)) }
+            { defaults | expires = Just (fromTime (1853609409 * second)) }
 
     in
         (Cookies.setWithOptions options "expires" "cookie value" >>+ always Cookies.get)
@@ -151,7 +151,7 @@ expiresInPast =
             Cookies.defaultOptions
 
         options =
-            { defaults | expires <- Just (fromTime 0) }
+            { defaults | expires = Just (fromTime 0) }
 
     in
         (Cookies.setWithOptions options "expires" "cookie value" >>+ always Cookies.get)
