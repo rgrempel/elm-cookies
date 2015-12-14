@@ -51,11 +51,9 @@ defaultOptions : Options
 
 ## Installation
 
-Because elm-cookies uses a 'native' module, it
-[requires approval](https://github.com/elm-lang/package.elm-lang.org/issues/48)
-before it can be included in the
+Because elm-cookies uses a 'native' module, it cannot be included in the
 [Elm package repository](http://package.elm-lang.org/packages). Thus, you cannot
-currently install it using `elm-package`.
+install it using `elm-package`.
 
 In the meantime, you can install it and use it via the following steps:
 
@@ -98,23 +96,19 @@ Now, doing this would have several implications which you should be aware of.
 
 *   You would, essentially, be trusting me (or looking to verify for yourself)
     that the code in [Cookies.js](src/Native/Cookies.js) is appropriate code for
-    a 'native' module, which would eventually be approved via the approval
-    process mentioned above.
+    a 'native' module -- that is, that it will not cause run-time crashes or
+    otherwise interfere with the usual guarantees provided by Elm.
 
-*   You would be relying on me to update that code when the mechanism for using
-    'native' modules in Elm changes, or when certain other internal details of Elm's
-    implementation change. Furthermore, you'd have to check here whenever the Elm
-    compiler's version changes, or the Elm core library's version changes, to see
-    whether an update is required.
+*   It is predictable that this module will need some changes when a new
+    version of Elm is released. Therefore, you would need to remember to check
+    here for such changes when that happens.
+
+*   It has been said that Elm 0.17 will include additional support for bindings
+    to Javascript platform APIs. This may make this module redundant, or it may
+    make it easier or harder to implement or install.
 
 *   If you're using this as part of a module you'd like to publish yourself,
-    then you'll now also need approval before becoming available on the Elm
-    package repository.
-
-*   If elm-cookies is ever 
-    [accepted into the Elm repository](https://github.com/elm-lang/package.elm-lang.org/issues/48),
-    then you'll need to undo the steps above and then install it with
-    `elm-package` in the usual way.
+    then you will also be unable to publish your module in the package repository.
 
 So, you may or may not really want to do this. But I thought it would be nice to
 let you know how.
