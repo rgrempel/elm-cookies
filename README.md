@@ -2,6 +2,15 @@
 
 This is a Cookies API for the Elm programming language.
 
+Since creating elm-cookies, I have started a larger elm-web-api project
+which deals with various Javascript APIs. There is a module there for
+dealing with cookies that is better maintained and tested than this
+module is:
+
+https://github.com/rgrempel/elm-web-api#webapicookie
+
+However, if you'd prefer a smaller module, this one remains available.
+
 ## Getting Cookies
 
 You can get the cookies with the `get` task.
