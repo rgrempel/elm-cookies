@@ -1,3 +1,22 @@
+# Deprecation Notice
+
+As previously noted below (under Installation), this package was, from the beginning, outside
+the mainstream Elm ecosystem, since it could not be installed via the Elm package manager
+(due to the native package block).
+
+Now that more information is available about Elm 0.17, the following things seem clear:
+
+* As expected, a variety of changes would be required for this package to work with Elm 0.17.
+
+* The policy of @elm-lang will be that @elm-lang should own all packages which access Web APIs.
+  For this reason, it will continue to be impossible to install this package via Elm's package manager.
+
+* @elm-lang will provide as much access to Web APIs as @elm-lang considers should be available in Elm,
+  via packages owned by @elm-lang.
+
+Reflecting on this, I find that my preference is not to continue work on this package. If anyone else
+should want to do something with this code, be my guest.
+
 # elm-cookies
 
 This is a Cookies API for the Elm programming language.
